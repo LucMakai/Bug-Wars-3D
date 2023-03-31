@@ -7,8 +7,8 @@ public class Shoot2: MonoBehaviour
 {
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawner;
-    public float bulletSpeed = 10;
-
+    public float fireRate;
+    float nextShot;
 
 public void Update() 
 {
@@ -16,14 +16,17 @@ public void Update()
 }
     public void GunShoot()
 {
-    if(Input.GetKeyDown(KeyCode.Mouse0))
-    {  
-            GameObject temporaryBall;
-            temporaryBall = Instantiate(bullet, bulletSpawner.transform.position, bullet.transform.rotation) as GameObject;
-            Rigidbody temporaryBallRB;
-            temporaryBallRB = temporaryBall.GetComponent<Rigidbody>();
-            temporaryBallRB.AddForce(bulletSpawner.transform.forward * bulletSpeed);   
-            Destroy(temporaryBall, 5f);
+    if(Time.time > nextShot)
+    {
+        nextShot = Time.time + fireRate;
+        GameObject temporaryBall;
+        temporaryBall = Instantiate(bullet, bulletSpawner.transform.position, bullet.transform.rotation) as GameObject;
+        Rigidbody temporaryBallRB;
+        temporaryBallRB = temporaryBall.GetComponent<Rigidbody>();
+        temporaryBallRB.AddForce(bulletSpawner.transform.forward);
+        Destroy(temporaryBall, 5f);
     }
+            
+    
 }
 }
